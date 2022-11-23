@@ -111,31 +111,29 @@ main:								# метка функции "main"
 	call	fopen@PLT				# вызываем fopen()
 	mov	QWORD PTR -24[rbp], rax		# output = fopen("output", "w");
 	call	rand@PLT				# вызываем rand()
-	mov	edx, eax
-	movsx	rax, edx
-	imul	rax, rax, 1374389535
-	shr	rax, 32
-	sar	eax, 3
-	mov	esi, edx
-	sar	esi, 31
-	sub	eax, esi
-	mov	ecx, eax
-	mov	eax, ecx
-	sal	eax, 2
-	add	eax, ecx
-	lea	ecx, 0[0+rax*4]
-	add	eax, ecx
-	mov	ecx, edx
-	sub	ecx, eax
-	pxor	xmm0, xmm0
-	cvtsi2sd	xmm0, ecx
-	movsd	QWORD PTR -56[rbp], xmm0
-	mov	rdx, QWORD PTR -56[rbp]
-	mov	rax, QWORD PTR -40[rbp]
-	movq	xmm0, rdx
-	lea	rsi, .LC6[rip]
-	mov	rdi, rax
-	mov	eax, 1
+	mov	edx, eax					# кладём результат
+	movsx	rax, edx				# rand() в rdx
+	imul	rax, rax, 1374389535	# --
+	shr	rax, 32						# /
+	sar	eax, 3						# |
+	mov	esi, edx					# | хитро
+	sar	esi, 31						# |
+	sub	eax, esi					# | берём
+	mov	ecx, eax					# |
+	mov	eax, ecx					# | остаток
+	sal	eax, 2						# |
+	add	eax, ecx					# | от деления
+	lea	ecx, 0[0+rax*4]				# |
+	add	eax, ecx					# | на 25
+	mov	ecx, edx					# |
+	sub	ecx, eax					# |
+	pxor	xmm0, xmm0				# \
+	cvtsi2sd	xmm0, ecx			# --
+	movsd	QWORD PTR -56[rbp], xmm0# кладём результат в х
+	mov	rdx, QWORD PTR -56[rbp]		# получаем x со стека
+	mov	rdi, QWORD PTR -40[rbp]		# получаем input со стека
+	movq	xmm0, rdx				# для работы с double
+	lea	rsi, .LC6[rip]				# загрузка строки "%f"
 	call	fprintf@PLT				# вызываем fprintf()
 .L9:								# метка ".L14" - после if-else
 	lea	rsi, -80[rbp]				# получаем ссылку на start
