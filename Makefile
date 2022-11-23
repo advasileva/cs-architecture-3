@@ -3,7 +3,6 @@ make-asm: # Лучше не запускать, потому что будет �
 	bash ./scripts/make-asm.sh calc
 
 test.asm:
-	make compile.asm
 	bash ./scripts/test-asm.sh
 
 test.c:
