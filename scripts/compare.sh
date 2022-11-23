@@ -6,8 +6,8 @@ for i in `seq 1 $max`
 do
     echo "Test $i"
     echo "~~~ASM-program~~~"
-    ./asm.exe $count 4 0 tests/test$i.in output
+    ./asm.exe $count 0 tests/test$i.in output
     echo "~~~~C-program~~~~"
-    ./c.exe $count 4 0 tests/test$i.in output
+    ./c.exe $count 0 tests/test$i.in output
     echo
 done

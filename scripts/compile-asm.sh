@@ -1,2 +1,2 @@
 #!/bin/bash
-gcc ./main.s ./find.s -o ./asm.exe
+gcc ./main.s ./calc.s -lm -o ./asm.exe

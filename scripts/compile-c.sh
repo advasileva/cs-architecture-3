@@ -1,2 +1,2 @@
 #!/bin/bash
-gcc ./main.c ./find.c -o ./c.exe
+gcc ./main.c ./calc.c -lm -o ./c.exe

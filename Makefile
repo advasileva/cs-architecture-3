@@ -1,6 +1,6 @@
 make-asm: # Лучше не запускать, потому что будет обновлена ассемблерная программа
 	bash ./scripts/make-asm.sh main
-	bash ./scripts/make-asm.sh find
+	bash ./scripts/make-asm.sh calc
 
 test.asm:
 	bash ./scripts/test-asm.sh
@@ -31,11 +31,11 @@ compare:
 
 rand.asm:
 	echo "Test ASM"
-	bash ./scripts/rand-asm.sh $n $(size)
+	bash ./scripts/rand-asm.sh
 
 rand.c:
 	echo "Test C"
-	bash ./scripts/rand-c.sh $n $(size)
+	bash ./scripts/rand-c.sh
 
 optimize:
 	bash ./scripts/optimize.sh

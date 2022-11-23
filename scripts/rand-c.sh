@@ -1,4 +1,4 @@
 #!/bin/bash
 
 echo "Random C"
-./c.exe 1 $1 1 $2
+./c.exe 1 1
