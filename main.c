@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     } else {
         input = fopen("input", "w");
         output = fopen("output", "w");
-        x = rand() % 128;
+        x = rand() % 25;
         fprintf(input, "%f", x);
     }
 
