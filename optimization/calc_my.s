@@ -5,37 +5,33 @@ calc:								# метка функции "find"
 	push	rbp						# (пролог) сохраняем rbp на стек
 	mov	rbp, rsp					# записываем rsp в rbp
 	sub	rsp, 48						# сдвигаем rsp
-	movsd	QWORD PTR -40[rbp], xmm0# записываем на стек: x (int - 4 byte)
+	movsd	xmm8, xmm0				# записываем в регистр: x
 	mov	r12d, 1						# записываем в регистр: i = 1 (int - 4 byte)
-	movsd	xmm0, QWORD PTR .LC0[rip]# получаем 1 типа double
-	movsd	QWORD PTR -16[rbp], xmm0# записываем на стек: el = 1
-	movsd	xmm0, QWORD PTR .LC0[rip]# получаем 1 типа double
-	movsd	QWORD PTR -24[rbp], xmm0# записываем на стек: s = 1
-	mov	rax, QWORD PTR -40[rbp]		# получаем x
-	movq	xmm0, rax				# для работы с double
+	movsd	xmm5, QWORD PTR .LC0[rip]# записываем в регистр: el = 1
+	movsd	xmm6, QWORD PTR .LC0[rip]# записываем в регистр: s = 1
+	movsd	xmm0, xmm8				# получаем x
 	call	exp@PLT					# вызываем exp(x)
-	movq	rax, xmm0				# для работы с double
-	mov	QWORD PTR -32[rbp], rax		# записываем результат в answer
+	movsd	xmm7, xmm0				# записываем в регистр: answer = exp(x)
 	jmp	.L2							# переходим к .L2
 .L3:								# метка ".L2" - тело цикла
-	movsd	xmm0, QWORD PTR -16[rbp]# получаем el
-	mulsd	xmm0, QWORD PTR -40[rbp]# получаем x
+	movsd	xmm0, xmm5				# получаем el
+	mulsd	xmm0, xmm8				# получаем x
 	pxor	xmm1, xmm1				# умножаем
 	cvtsi2sd	xmm1, r12d			# получаем i
 	divsd	xmm0, xmm1				# делим
-	movsd	QWORD PTR -16[rbp], xmm0# записываем результат в el
+	movsd	xmm5, xmm0				# записываем результат в el
 	add	r12d, 1						# инкрементируем i
-	movsd	xmm0, QWORD PTR -24[rbp]# получаем s
-	addsd	xmm0, QWORD PTR -16[rbp]# прибавляем el
-	movsd	QWORD PTR -24[rbp], xmm0# записываем сумму в s
+	movsd	xmm0, xmm6				# получаем s
+	addsd	xmm0, xmm5				# прибавляем el
+	movsd	xmm6, xmm0				# записываем сумму в s
 .L2:								# метка ".L2" - начало цикла
-	movsd	xmm0, QWORD PTR -32[rbp]# получаем answer
-	subsd	xmm0, QWORD PTR -24[rbp]# получаем answer - s
+	movsd	xmm0, xmm7				# получаем answer
+	subsd	xmm0, xmm6				# получаем answer - s
 	movq	xmm1, QWORD PTR .LC1[rip]# получаем шаблон для модуля
 	andpd	xmm0, xmm1				# хитро берём модуль разности
 	comisd	xmm0, QWORD PTR .LC2[rip]# получаем 0.001
 	jnb	.L3							# проверка условия цикла
-	movsd	xmm0, QWORD PTR -24[rbp]# возвращаем s
+	movsd	xmm0, xmm6				# возвращаем s
 	leave							# (эпилог)
 	ret								# выход из функции
 .LC0:								# метка ".L0"
